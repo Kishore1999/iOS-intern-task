@@ -24,7 +24,7 @@ else
                 orderedPieces = orderedPieces - cases
          
             }
-            else if arrayOfAvailables[availables] >= cases, orderedPieces >= outer {
+            else if arrayOfAvailables[availables] >= outer, orderedPieces >= outer {
                 arrayOfAvailables[availables] = arrayOfAvailables[availables] - outer
                 batches[availables]["available"] = arrayOfAvailables[availables]
                 batches[availables]["outers"] = batches[availables]["outers"] as! Int + 1 
