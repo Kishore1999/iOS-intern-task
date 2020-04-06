@@ -1,3 +1,12 @@
+/*given inputs = number of bullets, number of zombies, distance between player and zombies in array
+rules:
+1.if distance is greater then 5 means we cannot shoot zombies
+2.payers get +1 bullet back after  killed 2 zombies
+3.every seconds zombie distance reduced to -1
+4. per seconds one shoot are allowed
+5.if distance is 0 means game over .player killed by zombie or else player win the game
+*/
+
 import Foundation
 let numberOfZombies: Int = 2
 var numberOfBullet: Int = 6
