@@ -1,3 +1,10 @@
+/*Find the total of each students
+Find the result of each students based on their each subject mark as pass or fail
+sort the total marks and allocating ranks according to it for the passed students - separated array
+also find first three ranks which is separated array
+*/
+
+
 import Foundation
 struct StudentDetails {
    private var studentName : String
