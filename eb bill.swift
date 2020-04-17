@@ -18,6 +18,9 @@ For commercial 10 - 100
 */
 
 import Foundation
+enum ReadingType: String {
+    case domestic,commerical
+}
 func domestic(totalTwoMonthReading: Float) -> Float {
     
     if totalTwoMonthReading <= 100 {
@@ -36,7 +39,7 @@ func domestic(totalTwoMonthReading: Float) -> Float {
 }
 func commercial(totalTwoMonthReading: Float) -> Float {
     var withOutAddingService: Float = 0
-    var serviceAmount: Float = 290 
+    let serviceAmount: Float = 290 
     if totalTwoMonthReading <= 100 {
         withOutAddingService = Float(totalTwoMonthReading * 5)
     }
@@ -45,9 +48,9 @@ func commercial(totalTwoMonthReading: Float) -> Float {
     }
     return (withOutAddingService + serviceAmount)
 }
-var type = "commercial"
+let type = "commerical"
 var readingUnitsArray: [Int] = []
-if type == "domestic" {
+if type == ReadingType.domestic.rawValue {
     for eachDay in 0..<60 {
         readingUnitsArray.append(Int.random(in:1...10))
     }
@@ -60,4 +63,4 @@ else {
     }
     print("Total Unit: \(readingUnitsArray.reduce(0,+))")
     print("Cost : \(commercial(totalTwoMonthReading:Float(readingUnitsArray.reduce(0,+))))")
-    }
+}
