@@ -18,10 +18,11 @@ For commercial 10 - 100
 */
 
 import Foundation
-enum ReadingType: String {
+import Foundation
+enum ReadingType {
     case domestic,commerical
 }
-func domestic(totalTwoMonthReading: Float) -> Float {
+func calculatedomesticamount(_ totalTwoMonthReading: Float) -> Float {
     
     if totalTwoMonthReading <= 100 {
         return Float(100 * 0)
@@ -37,7 +38,7 @@ func domestic(totalTwoMonthReading: Float) -> Float {
     }
     
 }
-func commercial(totalTwoMonthReading: Float) -> Float {
+func calculatecommercialamount(_ totalTwoMonthReading: Float) -> Float {
     var withOutAddingService: Float = 0
     let serviceAmount: Float = 290 
     if totalTwoMonthReading <= 100 {
@@ -48,19 +49,22 @@ func commercial(totalTwoMonthReading: Float) -> Float {
     }
     return (withOutAddingService + serviceAmount)
 }
-let type = "commerical"
+let typeOfReading = ReadingType.domestic
 var readingUnitsArray: [Int] = []
-if type == ReadingType.domestic.rawValue {
+var totalUnits = 0
+if typeOfReading == ReadingType.domestic {
     for eachDay in 0..<60 {
         readingUnitsArray.append(Int.random(in:1...10))
     }
-    print("Total Unit: \(readingUnitsArray.reduce(0,+))")
-    print("Cost : \(domestic(totalTwoMonthReading:Float(readingUnitsArray.reduce(0,+))))")
+    totalUnits = readingUnitsArray.reduce(0,+)
+    print("Total Unit: \(totalUnits)")
+    print("Cost : \(calculatedomesticamount(Float(totalUnits)))")
 }
 else {
     for eachDay in 0..<60 {
         readingUnitsArray.append(Int.random(in:10...100))
     }
-    print("Total Unit: \(readingUnitsArray.reduce(0,+))")
-    print("Cost : \(commercial(totalTwoMonthReading:Float(readingUnitsArray.reduce(0,+))))")
+    totalUnits = readingUnitsArray.reduce(0,+)
+    print("Total Unit: \(totalUnits)")
+    print("Cost : \(calculatecommercialamount(Float(totalUnits)))")
 }
