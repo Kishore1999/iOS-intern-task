@@ -1,20 +1,15 @@
-/*
-Problem Statement : Need to calculate Electricity bill for every two months based on below tariffs.  
-
+/*Problem Statement : Need to calculate Electricity bill for every two months based on below tariffs.  
 For domestic
 For first 100 units Rs 0/unit
-For next 100 units Rs 1.50/unit, Fixed sevice cost Rs 20
-For next 300 units Rs 3.00/unit, Fixed sevice cost Rs 30
-For unit above 500  Rs 6.60/unit , Fixed sevice cost Rs 50
-
+For next 100 units Rs 3.50/unit
+For next 300 units Rs 4.60/unit
+For unit above 500  Rs 6.60/unit
+Fixed charges for two months Rs.50/service
 For Commercial
 For first 100 units Rs 5.00/unit
 Consumption above 100 units bi monthly 8.05/unit
 Fixed charges for two months Rs.290/service
-
-Get random numbers as daily consumable units. 
-For domestic random number generation should be in between 1 - 10. 
-For commercial 10 - 100
+Get random numbers as daily consumable units. For domestic random number generation should be in between 1 - 10. For commercial 10 - 100
 */
 
 import Foundation
@@ -22,32 +17,37 @@ import Foundation
 enum ReadingType {
     case domestic,commerical
 }
-func calculatedomesticamount(_ totalTwoMonthReading: Float) -> Float {
+let domesticFirstHunderdUnitCharges: Float = 0,domesticSecondHunderdUnitCharges: Float = 3.5,domesticFiveHunderdUnitCharges: Float = 4.6,aboveFiveUnitsCharge: Float = 6.6 
+let surchargeForDomestic: Float = 50
+func calculatedomesticamount(_ totalTwoMonthReadingUnits: Float) -> Float {
     
-    if totalTwoMonthReading <= 100 {
-        return Float(100 * 0)
+    if totalTwoMonthReadingUnits <= 100 {
+        return Float(100 * domesticFirstHunderdUnitCharges)
     }
-    else if totalTwoMonthReading >= 101 && totalTwoMonthReading <= 200 {
-        return (Float(totalTwoMonthReading * 1.50)) + 20
+    else if totalTwoMonthReadingUnits >= 101 && totalTwoMonthReadingUnits <= 200 {
+        return Float(100 * domesticFirstHunderdUnitCharges) + (Float((totalTwoMonthReadingUnits - 100) * domesticSecondHunderdUnitCharges )) + surchargeForDomestic
     }
-    else if totalTwoMonthReading >= 201 && totalTwoMonthReading <= 500 {
-         return (Float(100 * 0) + Float(100 * 2) + Float((totalTwoMonthReading - 200) * 3)) + 30
+    else if totalTwoMonthReadingUnits >= 201 && totalTwoMonthReadingUnits <= 500 {
+         return (Float(100 * domesticFirstHunderdUnitCharges) + Float(100 * domesticSecondHunderdUnitCharges) + Float((totalTwoMonthReadingUnits - 200) * domesticFiveHunderdUnitCharges)) + surchargeForDomestic
     }
     else {
-        return (Float(100 * 0) + Float((100 * 3.50)) + Float(300 * 4.6) + Float((totalTwoMonthReading - 500) * 6.60)) + 50
+        return (Float(100 * domesticFirstHunderdUnitCharges) + Float((100 * domesticSecondHunderdUnitCharges)) + Float(300 * domesticFiveHunderdUnitCharges) + Float((totalTwoMonthReadingUnits - 500) * aboveFiveUnitsCharge)) + surchargeForDomestic
     }
     
 }
 func calculatecommercialamount(_ totalTwoMonthReading: Float) -> Float {
-    var withOutAddingService: Float = 0
+    
+    let commercialFirstHunderdUnitCharges: Float = 5, commercialAboveHunderdUnit: Float = 8.05
+    var totalAmountwithOutAddingServiceAmount: Float = 0
     let serviceAmount: Float = 290 
+
     if totalTwoMonthReading <= 100 {
-        withOutAddingService = Float(totalTwoMonthReading * 5)
+        totalAmountwithOutAddingServiceAmount = Float(totalTwoMonthReading * commercialFirstHunderdUnitCharges)
     }
     else {
-        withOutAddingService = Float(100 * 5) + Float((totalTwoMonthReading - 100) * 8.05)
+        totalAmountwithOutAddingServiceAmount = Float(100 * commercialFirstHunderdUnitCharges) + Float((commercialAboveHunderdUnit - 100) * 8.05)
     }
-    return (withOutAddingService + serviceAmount)
+    return (totalAmountwithOutAddingServiceAmount + serviceAmount)
 }
 let typeOfReading = ReadingType.domestic
 var readingUnitsArray: [Int] = []
