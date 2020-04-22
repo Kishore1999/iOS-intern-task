@@ -28,11 +28,11 @@ struct EbBill {
         }
         return differenceBetweenTwoRanges
     }
-    func calculatingAmount(_ totalUnits: Float,_ fixedServiceAmount: Float)  {
+    func calculatingAmount(_ totalUnits: Float,_ fixedServiceAmount: Float) -> Float  {
         var temporaryUnitForCalculation: Float = totalUnits
         var rangeDifference: [Float] = calculateRangeDiffernce()
         for each in 0..<rangeArray.count {
-             if each == rangeArray.count - 1 || totalUnits <= rangeArray[each] {
+             if each == rangeArray.count - 1 || temporaryUnitForCalculation <= rangeArray[each] {
                 amountToBePay += temporaryUnitForCalculation * amountChargesPerRange[each]
                 break
              }
@@ -41,7 +41,7 @@ struct EbBill {
                 temporaryUnitForCalculation = temporaryUnitForCalculation - rangeDifference[each]
             }
         }
-        print("Total amount need to pay : \(amountToBePay + fixedServiceAmount)")
+       return (amountToBePay + fixedServiceAmount)
     }
 }
 func doRendomUnitsCalculation(startingLimitvalue: Int,endingLimitvalue: Int) -> Float {
@@ -54,16 +54,16 @@ func doRendomUnitsCalculation(startingLimitvalue: Int,endingLimitvalue: Int) -> 
 let typeOfReading = ReadingTypes.domestic
 var totalConsumedUnits: Float = 0 
 if typeOfReading == .domestic {
-    var object = EbBill(rangeArray: [100.0,200.0,500.0,501.0],amountChargesPerRange: [0,3.5,4.6,6.6])
+    var object = EbBill(rangeArray: [100.0,200.0,500.0],amountChargesPerRange: [0,3.5,4.6,6.6])
     let fixedCharges: Float = 50
     totalConsumedUnits = doRendomUnitsCalculation(startingLimitvalue: 1, endingLimitvalue: 10)
     print("Total units : \(totalConsumedUnits)")
-    object.calculatingAmount(totalConsumedUnits,fixedCharges)
+    print("Total amount need to pay : \(object.calculatingAmount(totalConsumedUnits,fixedCharges))")
 }
 else {
     var object = EbBill(rangeArray: [100.0,500.0],amountChargesPerRange: [5.0,8.0])
     let fixedCharges: Float = 290
     totalConsumedUnits = doRendomUnitsCalculation(startingLimitvalue: 10, endingLimitvalue: 100)
     print("Total units : \(totalConsumedUnits)")
-    object.calculatingAmount(totalConsumedUnits,fixedCharges)
+    print("Total amount need to pay : \(object.calculatingAmount(totalConsumedUnits,fixedCharges))")
 }
