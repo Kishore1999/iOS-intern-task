@@ -50,7 +50,7 @@ struct EbBill {
        return (amountToBePay + fixedServiceAmount)
     }
 }
-func doRendomUnitsCalculation(startingValue: Int,endingValue: Int) -> Float {
+func doRandomUnitsCalculation(startingValue: Int,endingValue: Int) -> Float {
     var readingUnitsArray: [Int] = []
     for eachDay in 0..<60 {
         readingUnitsArray.append(Int.random(in:startingValue...endingValue))
@@ -62,14 +62,14 @@ var totalConsumedUnits: Float = 0
 if typeOfReading == .domestic {
     let structObject = EbBill(rangeArray: [100.0,200.0,500.0,501.0],amountChargesPerRange: [0,3.5,4.6,6.6])
     let fixedCharges: Float = 50
-    totalConsumedUnits = doRendomUnitsCalculation(startingValue: 1, endingValue: 10)
+    totalConsumedUnits = doRandomUnitsCalculation(startingValue: 1, endingValue: 10)
     print("Total units : \(totalConsumedUnits)")
     print("Total amount need to pay : \(structObject.calculateAmount(totalConsumedUnits,fixedCharges))")
 }
 else {
     let structObject = EbBill(rangeArray: [100.0,500.0],amountChargesPerRange: [5.0,8.0])
     let fixedCharges: Float = 290
-    totalConsumedUnits = doRendomUnitsCalculation(startingValue: 10, endingValue: 100)
+    totalConsumedUnits = doRandomUnitsCalculation(startingValue: 10, endingValue: 100)
     print("Total units : \(totalConsumedUnits)")
     print("Total amount need to pay : \(structObject.calculateAmount(totalConsumedUnits,fixedCharges))")
 }
