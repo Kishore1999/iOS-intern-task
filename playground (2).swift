@@ -1,3 +1,6 @@
+// Bubble Sort algorithm 
+
+
 import Foundation
 
 var array = [2,6,98,60,72]
