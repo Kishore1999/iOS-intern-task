@@ -34,7 +34,7 @@ func doSelectionSort()  {
 func doCalculation(_ position : Int) -> Int {
     var sumOfSubractionValues = 0, eachIteration = 0
     while eachIteration != position {
-        sumOfSubractionValues += arrayOfElements[eachIteration + 1] - arrayOfElements[eachIteration]
+        sumOfSubractionValues += abs(arrayOfElements[eachIteration + 1] - arrayOfElements[eachIteration])
         eachIteration += 1
     }
     return sumOfSubractionValues
