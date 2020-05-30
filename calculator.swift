@@ -2,60 +2,19 @@ import Foundation
 
 var inputString = Array("5+23+88*(15-5)")
 
-let precedenceDictionary = ["(":1,")":1,"^":2,"*":3,"/":3,"+":4,"-":4]
+let precedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
+
+var infixArray:[String] = []
 
 var postfixArray: [String] = []
 
 let symbolArray = ["+", "-", "/", "*","(",")"]
 
-func infixToPostfix(_ infixArray: [String])  {
-    var operatorArray: [String] = []
-    let numbersString = "0123456789"
-    for eachElements in infixArray {
-        if symbolArray.contains(eachElements) != true {
-            postfixArray.append(eachElements)
-        }
-        else if eachElements == "(" {
-            operatorArray.append(eachElements)
-        }
-        else if eachElements == ")" {
-            var removeOperators = operatorArray.removeLast()
-            while String(removeOperators) != "("{
-                postfixArray.append(removeOperators)
-                removeOperators = operatorArray.removeLast()
-            }
-        }
-        else {
-            while !operatorArray.isEmpty  && precedenceDictionary[eachElements]! >= precedenceDictionary[operatorArray.last!]! {
-                //postfixArray.append(operatorArray.removeLast())
-            }
-        }
-    
-    // // while !operatorArray.isEmpty {
-    // //     postfixArray.append(operatorArray.removeLast())
-    // // }
-    
-    }
-    print(operatorArray)
-}
+func doSpearateArray() {
+    var flag = 0
+    var temp = 0
 
-
-
-
-
-
-
-
-
-
-
-
-var infixArray:[String] = []
-// let symbolArray = ["+", "-", "/", "*","(",")"]
-var flag = 0
-var temp = 0
-
-for var index in 0..<inputString.count {
+    for var index in 0..<inputString.count {
         if (symbolArray.contains(String(inputString[index])) != true){
             temp *= 10
             temp += (Int(String(inputString[index])) ?? 0)
@@ -72,7 +31,48 @@ for var index in 0..<inputString.count {
         if index == inputString.count - 1 && symbolArray.contains(String(inputString[index])) != true  {
             infixArray.append(String(temp))
         }
+    }
 }
 
-infixToPostfix(infixArray)
-print(postfixArray)
+func infixToPostfix()  {
+    var operatorArray: [String] = []
+    let numbersString = "0123456789"
+    for eachElements in infixArray {
+        if symbolArray.contains(eachElements) != true {
+            postfixArray.append(eachElements)
+        }
+        else if eachElements == "(" {
+            operatorArray.append(eachElements)
+            
+        }
+        else if eachElements == ")" {
+            
+            var removeOperators = operatorArray.removeLast()
+            while removeOperators != "("{
+                postfixArray.append(removeOperators)
+                removeOperators = operatorArray.removeLast()
+            }
+        }
+        else {
+            while !operatorArray.isEmpty  && precedenceDictionary[eachElements]! <= precedenceDictionary[operatorArray.last!]! {
+                postfixArray.append(operatorArray.removeLast())
+                
+            }
+            operatorArray.append(eachElements)
+        }
+    }
+    
+    while !operatorArray.isEmpty {
+        postfixArray.append(operatorArray.removeLast())
+    }
+    print(postfixArray)
+}
+
+func doEvalutionOfPostfix() {
+    
+}
+
+
+doSpearateArray()
+infixToPostfix()
+
