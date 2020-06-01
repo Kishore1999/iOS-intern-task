@@ -1,6 +1,6 @@
 import Foundation
 
-var inputString = Array("5+23+88*(15-5)")
+var inputString = Array("0.5+0.5")
 
 let precedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -8,7 +8,7 @@ var infixArray:[String] = []
 
 var postfixArray: [String] = []
 
-let symbolArray = ["+", "-", "/", "*","(",")"]
+let symbolArray = ["+", "-", "/", "*","(",")","^"]
 
 func doSpearateArray() {
     var flag = 0
@@ -34,7 +34,7 @@ func doSpearateArray() {
     }
 }
 
-func infixToPostfix()  {
+func infixToPostfix() -> [String]  {
     var operatorArray: [String] = []
     let numbersString = "0123456789"
     for eachElements in infixArray {
@@ -65,14 +65,45 @@ func infixToPostfix()  {
     while !operatorArray.isEmpty {
         postfixArray.append(operatorArray.removeLast())
     }
-    print(postfixArray)
+    return postfixArray
 }
 
-func doEvalutionOfPostfix() {
+func doEvalutionOfPostfix() -> Double {
+    var operandsArray: [Double] = []
+    for eachElements in postfixArray {
+        if (symbolArray.contains(String(eachElements)) != true) {
+            operandsArray.append(Double(String(eachElements)) ?? 0)
+        }
+        else {
+                operandsArray.append(doCalculation(eachElements,operandsArray.removeLast(),operandsArray.removeLast()))
+                //print(operandsArray)
+        }
+    }
+   return operandsArray.removeLast() 
+}
+
+func doCalculation(_ symbol: String,_ secondOperand: Double,_ firstOperand: Double) -> Double {
+
+    switch symbol {
+    case "+":
+        return firstOperand + secondOperand
+    case "-":
+        return firstOperand - secondOperand
+    case "*":
+        return firstOperand * secondOperand
+    case "/":
+        return firstOperand / secondOperand
+    case "^": 
+        return pow(firstOperand,secondOperand)
+    default:
+        print("Wrong Sign")
+    }
+    return -1
     
 }
 
 
 doSpearateArray()
-infixToPostfix()
-
+print("Postfix Expression \(infixToPostfix())")
+print("answer : \(doEvalutionOfPostfix()) " )
+doEvalutionOfPostfix()
