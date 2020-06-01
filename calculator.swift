@@ -1,10 +1,3 @@
-/*Create a simple calculator and calculate the values based on the order of precedence
-Input will be string (e.g., "(2*3)+3*5")
-Here the evaluation will happen based on precedence order as = (2*3)+3*5
-                                                             = 6+3*5
-                                                             = 6+15
-                                                             = 21 */
-//convert infix to postfix expression
 import Foundation
 
 var inputString = Array(("-5+5").replacingOccurrences(of:  " ", with: ""))
@@ -175,4 +168,5 @@ func doCalculation(_ symbol: String,_ secondOperand: Double,_ firstOperand: Doub
     return -1
     
 }
-calculator()
+
+performCalculator()
