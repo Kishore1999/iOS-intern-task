@@ -1,37 +1,72 @@
 import Foundation
 
-var inputString = Array("0.5+0.5")
+var inputString = Array("(-2-4)")
 
 let precedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
+
+let symbolArray = ["+", "-", "/", "*","(",")","^"]
 
 var infixArray:[String] = []
 
 var postfixArray: [String] = []
 
-let symbolArray = ["+", "-", "/", "*","(",")","^"]
-
 func doSpearateArray() {
     var flag = 0
-    var temp = 0
-
-    for var index in 0..<inputString.count {
-        if (symbolArray.contains(String(inputString[index])) != true){
-            temp *= 10
-            temp += (Int(String(inputString[index])) ?? 0)
-            flag = 1
-        }
-        else {
-            if flag == 1 {
-                infixArray.append(String(temp))
+    var temporaryvariable = 0
+    var temporaryArray = Array(inputString)
+    var indexOfArray = 0
+    while indexOfArray < inputString.count  {
+        var startingIndex = 0
+        if indexOfArray < inputString.count - 1 && symbolArray.contains(String(inputString[indexOfArray])) {
+            if inputString[indexOfArray + 1] == "." {
+                startingIndex  = indexOfArray
+                while indexOfArray < inputString.count - 1 {
+                    if symbolArray.contains(String(inputString[indexOfArray])) != true {
+                        indexOfArray += 1
+                    }
+                    else if symbolArray.contains(String(inputString[indexOfArray])) {
+                        indexOfArray = indexOfArray - 1
+                        break
+                    }
+                    else {
+                        indexOfArray = indexOfArray + 1
+                        break
+                    }
+                }
+                infixArray.append(String(temporaryArray[startingIndex...indexOfArray]))
+            
             }
-            infixArray.append(String(inputString[index]))
-            temp = 0
-            flag = 0
+
+            else if (symbolArray.contains(String(inputString[indexOfArray])) != true){
+            
+                temporaryvariable *= 10
+                temporaryvariable += (Int(String(inputString[indexOfArray])) ?? 0)
+                flag = 1
+            }
+            else {
+                if flag == 1 {
+                    infixArray.append(String(temporaryvariable))
+                }
+                infixArray.append(String(inputString[indexOfArray]))
+                temporaryvariable = 0
+                flag = 0
+            }
         }
-        if index == inputString.count - 1 && symbolArray.contains(String(inputString[index])) != true  {
-            infixArray.append(String(temp))
+        else{
+            if indexOfArray <= inputString.count - 1   {
+                if flag == 1 {
+                    temporaryvariable = temporaryvariable * 10 + (Int(String(inputString[indexOfArray])) ?? 0)
+                    infixArray.append(String(temporaryvariable))
+                }
+                else {
+                    infixArray.append(String(inputString[indexOfArray]))
+                }
+                
+            }
         }
+        indexOfArray = indexOfArray + 1
     }
+   
 }
 
 func infixToPostfix() -> [String]  {
@@ -70,16 +105,23 @@ func infixToPostfix() -> [String]  {
 
 func doEvalutionOfPostfix() -> Double {
     var operandsArray: [Double] = []
+    var symbolsBaseValueDictionary = ["*" : 1.0, "/": 1.0, "+": 0.0, "-": 0.0]
     for eachElements in postfixArray {
-        if (symbolArray.contains(String(eachElements)) != true) {
-            operandsArray.append(Double(String(eachElements)) ?? 0)
+        if (symbolArray.contains(String(eachElements)) ) {
+            
+            if operandsArray.count == 1 {
+                operandsArray.append(doCalculation(eachElements,operandsArray.removeLast(),symbolsBaseValueDictionary[eachElements]!))
+            }
+            else {
+                operandsArray.append(doCalculation(eachElements,operandsArray.removeLast(),operandsArray.removeLast()))
+            }
+                
         }
         else {
-                operandsArray.append(doCalculation(eachElements,operandsArray.removeLast(),operandsArray.removeLast()))
-                //print(operandsArray)
+            operandsArray.append(Double(String(eachElements)) ?? 0)
         }
     }
-   return operandsArray.removeLast() 
+   return operandsArray[0]
 }
 
 func doCalculation(_ symbol: String,_ secondOperand: Double,_ firstOperand: Double) -> Double {
@@ -102,8 +144,6 @@ func doCalculation(_ symbol: String,_ secondOperand: Double,_ firstOperand: Doub
     
 }
 
-
 doSpearateArray()
 print("Postfix Expression \(infixToPostfix())")
 print("answer : \(doEvalutionOfPostfix()) " )
-doEvalutionOfPostfix()
