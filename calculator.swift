@@ -1,6 +1,12 @@
+/*Create a simple calculator and calculate the values based on the order of precedence
+Input will be string (e.g., "(2*39)+(63*58)"
+output: 3732.0 
+*/
+
+
 import Foundation
 
-var inputString = Array(("-5+5").replacingOccurrences(of:  " ", with: ""))
+var inputString = Array(("(30+2)/6").replacingOccurrences(of:  " ", with: ""))
 
 let precedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -12,11 +18,9 @@ var postfixArray: [String] = []
 
 func performCalculator() {
     doSpearateArray()
-    print("Postfix Expression \(infixToPostfix())")
+    infixToPostfix()
     print("answer : \(doEvalutionOfPostfix()) " )
 }
-
-
 
 func doSpearateArray() {
     var flag = 0
