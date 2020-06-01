@@ -1,6 +1,13 @@
+/*Create a simple calculator and calculate the values based on the order of precedence
+Input will be string (e.g., "(2*3)+3*5")
+Here the evaluation will happen based on precedence order as = (2*3)+3*5
+                                                             = 6+3*5
+                                                             = 6+15
+                                                             = 21 */
+//convert infix to postfix expression
 import Foundation
 
-var inputString = Array("(-2-4)")
+var inputString = Array(("-5+5").replacingOccurrences(of:  " ", with: ""))
 
 let precedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -10,6 +17,14 @@ var infixArray:[String] = []
 
 var postfixArray: [String] = []
 
+func performCalculator() {
+    doSpearateArray()
+    print("Postfix Expression \(infixToPostfix())")
+    print("answer : \(doEvalutionOfPostfix()) " )
+}
+
+
+
 func doSpearateArray() {
     var flag = 0
     var temporaryvariable = 0
@@ -17,7 +32,7 @@ func doSpearateArray() {
     var indexOfArray = 0
     while indexOfArray < inputString.count  {
         var startingIndex = 0
-        if indexOfArray < inputString.count - 1 && symbolArray.contains(String(inputString[indexOfArray])) {
+        if indexOfArray < inputString.count - 1  {
             if inputString[indexOfArray + 1] == "." {
                 startingIndex  = indexOfArray
                 while indexOfArray < inputString.count - 1 {
@@ -37,7 +52,7 @@ func doSpearateArray() {
             
             }
 
-            else if (symbolArray.contains(String(inputString[indexOfArray])) != true){
+            else if symbolArray.contains(String(inputString[indexOfArray])) != true{
             
                 temporaryvariable *= 10
                 temporaryvariable += (Int(String(inputString[indexOfArray])) ?? 0)
@@ -47,14 +62,29 @@ func doSpearateArray() {
                 if flag == 1 {
                     infixArray.append(String(temporaryvariable))
                 }
+                if inputString[indexOfArray] == "(" && indexOfArray != 0  {
+                    if symbolArray.contains(String(inputString[indexOfArray - 1])) != true {
+                        infixArray.append("*")
+                    }
+                }
                 infixArray.append(String(inputString[indexOfArray]))
+                if inputString[indexOfArray] == ")" && indexOfArray < inputString.count {
+                    if  inputString[indexOfArray + 1] == "(" || symbolArray.contains(String(inputString[indexOfArray + 1])) != true{
+                        infixArray.append("*")
+                    }
+                }
                 temporaryvariable = 0
                 flag = 0
             }
         }
         else{
             if indexOfArray <= inputString.count - 1   {
-                if flag == 1 {
+                if flag == 1 && symbolArray.contains(String(inputString[indexOfArray])) {
+                    
+                    infixArray.append(String(temporaryvariable))
+                    infixArray.append(String(inputString[indexOfArray]))
+                }
+                else if flag == 1 {
                     temporaryvariable = temporaryvariable * 10 + (Int(String(inputString[indexOfArray])) ?? 0)
                     infixArray.append(String(temporaryvariable))
                 }
@@ -69,9 +99,9 @@ func doSpearateArray() {
    
 }
 
+
 func infixToPostfix() -> [String]  {
     var operatorArray: [String] = []
-    let numbersString = "0123456789"
     for eachElements in infixArray {
         if symbolArray.contains(eachElements) != true {
             postfixArray.append(eachElements)
@@ -103,6 +133,7 @@ func infixToPostfix() -> [String]  {
     return postfixArray
 }
 
+
 func doEvalutionOfPostfix() -> Double {
     var operandsArray: [Double] = []
     var symbolsBaseValueDictionary = ["*" : 1.0, "/": 1.0, "+": 0.0, "-": 0.0]
@@ -124,6 +155,7 @@ func doEvalutionOfPostfix() -> Double {
    return operandsArray[0]
 }
 
+
 func doCalculation(_ symbol: String,_ secondOperand: Double,_ firstOperand: Double) -> Double {
 
     switch symbol {
@@ -143,7 +175,4 @@ func doCalculation(_ symbol: String,_ secondOperand: Double,_ firstOperand: Doub
     return -1
     
 }
-
-doSpearateArray()
-print("Postfix Expression \(infixToPostfix())")
-print("answer : \(doEvalutionOfPostfix()) " )
+calculator()
