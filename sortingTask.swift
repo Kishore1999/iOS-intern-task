@@ -9,9 +9,9 @@ output       : sorted array
 
 import Foundation
 
-var arrayOfElements = [20,90,5,4,10,100]
+var arrayOfElements = [1,2,3,4,5]
 
-func doSelectionSort()  {
+func doSelectionSortWithMinimumSwap()  {
     var temporaryIndexOfMinimumValue = -1 , swapCount = 0
     for eachIteration in 0..<arrayOfElements.count - 1 {
         temporaryIndexOfMinimumValue = eachIteration
@@ -31,17 +31,21 @@ func doSelectionSort()  {
     print("SwapCount: \(swapCount)")   
 }
 
-func doCalculation(_ position : Int) -> Int {
+func doCalculationForGivenIndexAndReturnsSumOfSubractionValues(_ indexPosition : Int) -> Int {
     var sumOfSubractionValues = 0, eachIteration = 0
-    while eachIteration != position {
+    while eachIteration != indexPosition {
         sumOfSubractionValues += abs(arrayOfElements[eachIteration + 1] - arrayOfElements[eachIteration])
         eachIteration += 1
     }
     return sumOfSubractionValues
 }
-let indexPosition = 4
-doSelectionSort()
+
+doSelectionSortWithMinimumSwap()
+
+let indexPositionForSumOfSubraction = 4
 print("Sorted Array: \(arrayOfElements)")
-if indexPosition > 0 && indexPosition < arrayOfElements.count  {
-    print("Sum : \(doCalculation(indexPosition))")
+
+
+if indexPositionForSumOfSubraction > 0 && indexPositionForSumOfSubraction < arrayOfElements.count  {
+    print("sumOfSubractionValues : \(doCalculationForGivenIndexAndReturnsSumOfSubractionValues(indexPositionForSumOfSubraction))")
 }
