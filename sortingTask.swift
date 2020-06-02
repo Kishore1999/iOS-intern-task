@@ -9,7 +9,7 @@ output       : sorted array
 
 import Foundation
 
-var arrayOfElements = [1,6,3,4,5]
+var arrayOfElements = [1,4,3,2,5]
 
 func doSelectionSortWithMinimumSwap(for arrayOfElements:[Int])  {
     var arrayOfElements = arrayOfElements
@@ -32,7 +32,7 @@ func doSelectionSortWithMinimumSwap(for arrayOfElements:[Int])  {
     print("SwapCount: \(swapCount)")   
 }
 
-func calculateSumOfSubractionValuesForGivenRange(for indexPosition : Int) -> Int {
+func calculateSumOfSubtractedValuesForSortedArray(until indexPosition : Int) -> Int {
     var sumOfSubractionValues = 0, eachIteration = 0
     while eachIteration != indexPosition {
         sumOfSubractionValues += abs(arrayOfElements[eachIteration + 1] - arrayOfElements[eachIteration])
@@ -46,5 +46,5 @@ print("Sorted Array: \(arrayOfElements)")
 
 let indexPositionForSumOfSubraction = 4
 if indexPositionForSumOfSubraction > 0 && indexPositionForSumOfSubraction < arrayOfElements.count  {
-    print("sumOfSubractionValues : \(calculateSumOfSubractionValuesForGivenRange(for :indexPositionForSumOfSubraction))")
+    print("sumOfSubractionValues : \(calculateSumOfSubtractedValuesForSortedArray(until :indexPositionForSumOfSubraction))")
 }
