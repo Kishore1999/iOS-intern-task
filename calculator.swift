@@ -6,7 +6,7 @@ output: 3732.0
 
 import Foundation
 
-let inputString = Array(("(10+1)*2").replacingOccurrences(of:  " ", with: ""))
+let inputString = Array(("(10-1)*2").replacingOccurrences(of:  " ", with: ""))
 
 let SymbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
