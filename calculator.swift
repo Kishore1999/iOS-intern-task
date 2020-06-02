@@ -6,7 +6,7 @@ output: 3732.0
 
 import Foundation
 
-let inputString = Array(("(-1 + 3 (3+8(9+8)))").replacingOccurrences(of:  " ", with: ""))
+var inputString = Array(("2+3").replacingOccurrences(of:  " ", with: ""))
 
 let precedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -32,7 +32,7 @@ func doSpearateArray() {
         var startingIndex = 0
         if indexOfArray < inputString.count - 1  {
             if inputString[indexOfArray + 1] == "." {
-                startingIndex  = indexOfArray - 1
+                startingIndex  = indexOfArray
                 while indexOfArray < inputString.count - 1 {
                     if symbolArray.contains(String(inputString[indexOfArray])) != true {
                         indexOfArray += 1
