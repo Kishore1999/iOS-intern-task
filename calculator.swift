@@ -6,7 +6,7 @@ output: 3732.0
 
 import Foundation
 
-var inputString = Array(("(30+2)/6").replacingOccurrences(of:  " ", with: ""))
+let inputString = Array(("(-1 + 3 (3+8(9+8)))").replacingOccurrences(of:  " ", with: ""))
 
 let precedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -18,6 +18,7 @@ var postfixArray: [String] = []
 
 func performCalculator() {
     doSpearateArray()
+    print(infixArray)
     infixToPostfix()
     print("answer : \(doEvalutionOfPostfix()) " )
 }
@@ -31,7 +32,7 @@ func doSpearateArray() {
         var startingIndex = 0
         if indexOfArray < inputString.count - 1  {
             if inputString[indexOfArray + 1] == "." {
-                startingIndex  = indexOfArray
+                startingIndex  = indexOfArray - 1
                 while indexOfArray < inputString.count - 1 {
                     if symbolArray.contains(String(inputString[indexOfArray])) != true {
                         indexOfArray += 1
@@ -45,8 +46,14 @@ func doSpearateArray() {
                         break
                     }
                 }
-                infixArray.append(String(temporaryArray[startingIndex...indexOfArray]))
-            
+                if flag == 1 {
+                    temporaryvariable *= 10
+                    temporaryvariable += (Int(String(inputString[startingIndex])) ?? 0)
+                }
+                let temporaryString = String(temporaryvariable) + String(temporaryArray[startingIndex + 1...indexOfArray])
+                flag = 0
+                temporaryvariable = 0
+                infixArray.append(temporaryString)            
             }
 
             else if symbolArray.contains(String(inputString[indexOfArray])) != true{
