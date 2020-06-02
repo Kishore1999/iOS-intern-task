@@ -11,7 +11,8 @@ import Foundation
 
 var arrayOfElements = [1,6,3,4,5]
 
-func doSelectionSortWithMinimumSwap()  {
+func doSelectionSortWithMinimumSwap(for arrayOfElements:[Int])  {
+    var arrayOfElements = arrayOfElements
     var temporaryIndexOfMinimumValue = -1 , swapCount = 0
     for eachIteration in 0..<arrayOfElements.count - 1 {
         temporaryIndexOfMinimumValue = eachIteration
@@ -31,7 +32,7 @@ func doSelectionSortWithMinimumSwap()  {
     print("SwapCount: \(swapCount)")   
 }
 
-func calculateMinimumDifferencesForGivenRangeAndReturnsSumOfSubractionValues(_ indexPosition : Int) -> Int {
+func calculateSumOfSubractionValuesForGivenRange(for indexPosition : Int) -> Int {
     var sumOfSubractionValues = 0, eachIteration = 0
     while eachIteration != indexPosition {
         sumOfSubractionValues += abs(arrayOfElements[eachIteration + 1] - arrayOfElements[eachIteration])
@@ -40,12 +41,10 @@ func calculateMinimumDifferencesForGivenRangeAndReturnsSumOfSubractionValues(_ i
     return sumOfSubractionValues
 }
 
-doSelectionSortWithMinimumSwap()
-
-let indexPositionForSumOfSubraction = 4
+doSelectionSortWithMinimumSwap(for: arrayOfElements)
 print("Sorted Array: \(arrayOfElements)")
 
-
+let indexPositionForSumOfSubraction = 4
 if indexPositionForSumOfSubraction > 0 && indexPositionForSumOfSubraction < arrayOfElements.count  {
-    print("sumOfSubractionValues : \(calculateMinimumDifferencesForGivenRangeAndReturnsSumOfSubractionValues(indexPositionForSumOfSubraction))")
+    print("sumOfSubractionValues : \(calculateSumOfSubractionValuesForGivenRange(for :indexPositionForSumOfSubraction))")
 }
