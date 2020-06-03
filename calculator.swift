@@ -6,9 +6,9 @@ output: 3732.0
 
 import Foundation
 
-let inputStringCharacter = Array(("1(1+0.2)10").replacingOccurrences(of:  " ", with: ""))
+let inputStringCharacter = Array(("-1(1+0.2)10").replacingOccurrences(of:  " ", with: ""))
 
-let SymbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
+let symbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
 let symbolsArray = ["+", "-", "/", "*","(",")","^"]
 
@@ -17,17 +17,17 @@ var infixExpressionArray:[String] = []
 var postfixExpressionArray: [String] = []
 
 
-
+//main function
 func performCalculationForGiveninputStringCharacter() {
-    spearateinputStringCharacterToInfixExpressionArray(for: inputStringCharacter)
+    createInfixExpressionArray(using: inputStringCharacter)
     createpostfixExpressionArray(using: infixExpressionArray)
     print("answer : \(calculateFinalAnswer(using: postfixExpressionArray)) " )
 }
 
 
 
-
-func spearateinputStringCharacterToInfixExpressionArray(for inputStringCharacter: [Character]) {
+//create infix expression using input string character
+func createInfixExpressionArray(using inputStringCharacter: [Character]) {
     var flag = 0
     var temporaryvariable = 0
     var temporaryArray = Array(inputStringCharacter)
@@ -109,6 +109,8 @@ func spearateinputStringCharacterToInfixExpressionArray(for inputStringCharacter
     }
    
 }
+
+//create postfix expression using infix array
 func createpostfixExpressionArray(using infixExpressionArray: [String]) -> [String]  {
     var operatorArray: [String] = []
     for eachElements in infixExpressionArray {
@@ -128,7 +130,7 @@ func createpostfixExpressionArray(using infixExpressionArray: [String]) -> [Stri
             }
         }
         else {
-            while !operatorArray.isEmpty  && SymbolsPrecedenceDictionary[eachElements]! <= SymbolsPrecedenceDictionary[operatorArray.last!]! {
+            while !operatorArray.isEmpty  && symbolsPrecedenceDictionary[eachElements]! <= symbolsPrecedenceDictionary[operatorArray.last!]! {
                 postfixExpressionArray.append(operatorArray.removeLast())
                 
             }
@@ -143,6 +145,7 @@ func createpostfixExpressionArray(using infixExpressionArray: [String]) -> [Stri
 }
 
 
+//calculate answer for postfix expression
 func calculateFinalAnswer(using postfixExpressionArray: [String]) -> Float {
     var operandsArray: [Float] = []
     let symbolsBaseValueDictionary:[String:Float] = ["*" : 1.0, "/": 1.0, "+": 0.0, "-": 0.0]
@@ -164,7 +167,7 @@ func calculateFinalAnswer(using postfixExpressionArray: [String]) -> Float {
    return operandsArray[0]
 }
 
-
+//do calculation for respective sign
 func doCalculationForOperators(for operators: String, with secondOperand: Float,and firstOperand: Float) -> Float {
 
     switch operators {
@@ -184,5 +187,4 @@ func doCalculationForOperators(for operators: String, with secondOperand: Float,
     return -1
     
 }
-
 performCalculationForGiveninputStringCharacter()
