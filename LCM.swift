@@ -6,12 +6,12 @@ LCM of two number
 
 import Foundation
 
-let firstNumber = 10 , seccondNumber = 10
+let firstNumber = 10 , seccondNumber = 200
 
 //checking number is vaild or not
 func checkingNumberIsVaild(for firstNumber: Int, and seccondNumber: Int ) -> Int {
     if firstNumber != 0 && seccondNumber != 0 {
-        return calculateLCM(/*for:operandOne,and: operandTwo*/  with:findMaximumValue(between: firstNumber, and: seccondNumber))
+        return calculateLCM(for:firstNumber,and: seccondNumber, with:findMaximumValue(between: firstNumber, and: seccondNumber))
     }
     else {
         return 0
@@ -24,14 +24,15 @@ func findMaximumValue(between firstNumber: Int, and seccondNumber: Int) -> Int {
 }
 
 //after finding maximum value then calculating LCM 
-func calculateLCM(/*for:operandOne,and: operandTwo*/ with maxmiumValue: Int ) -> Int {
+func calculateLCM(for firstNumber: Int, and seccondNumber: Int, with maxmiumValue: Int ) -> Int {
     var maximumValue = maxmiumValue
     if maximumValue % firstNumber == 0 && maximumValue % seccondNumber == 0 {
         return maximumValue
     }
-    return calculateLCM(with: maximumValue + 1)
+    return calculateLCM(for:firstNumber, and: seccondNumber, with: maximumValue + 1)
 }
 
 
 
 print("LCM: \(checkingNumberIsVaild(for: firstNumber, and: seccondNumber))" )
+
