@@ -6,7 +6,7 @@ output: 3732.0
 
 import Foundation
 
-let inputCharacterString = Array(("2-3").replacingOccurrences(of:  " ", with: ""))
+let inputStringCharacter = Array(("1(1+0.2)10").replacingOccurrences(of:  " ", with: ""))
 
 let SymbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -14,30 +14,34 @@ let symbolsArray = ["+", "-", "/", "*","(",")","^"]
 
 var infixExpressionArray:[String] = []
 
-var postfixArray: [String] = []
+var postfixExpressionArray: [String] = []
 
-func performCalculationForGiveninputCharacterString() {
-    spearateinputCharacterStringToArray(for: inputCharacterString)
-    //print(infixExpressionArray)
-    infixToPostfixArray(for: infixExpressionArray)
-    print("answer : \(calculatePostfixArray(for: postfixArray)) " )
+
+
+func performCalculationForGiveninputStringCharacter() {
+    spearateinputStringCharacterToInfixExpressionArray(for: inputStringCharacter)
+    createpostfixExpressionArray(using: infixExpressionArray)
+    print("answer : \(calculateFinalAnswer(using: postfixExpressionArray)) " )
 }
 
-func spearateinputCharacterStringToArray(for inputCharacterString: [Character]) {
+
+
+
+func spearateinputStringCharacterToInfixExpressionArray(for inputStringCharacter: [Character]) {
     var flag = 0
     var temporaryvariable = 0
-    var temporaryArray = Array(inputCharacterString)
+    var temporaryArray = Array(inputStringCharacter)
     var indexOfArray = 0
-    while indexOfArray < inputCharacterString.count  {
+    while indexOfArray < inputStringCharacter.count  {
         var startingIndex = 0
-        if indexOfArray < inputCharacterString.count - 1  {
-            if inputCharacterString[indexOfArray + 1] == "." {
+        if indexOfArray < inputStringCharacter.count - 1  {
+            if inputStringCharacter[indexOfArray + 1] == "." {
                 startingIndex  = indexOfArray
-                while indexOfArray < inputCharacterString.count - 1 {
-                    if symbolsArray.contains(String(inputCharacterString[indexOfArray])) != true {
+                while indexOfArray < inputStringCharacter.count {
+                    if symbolsArray.contains(String(inputStringCharacter[indexOfArray])) != true {
                         indexOfArray += 1
                     }
-                    else if symbolsArray.contains(String(inputCharacterString[indexOfArray])) {
+                    else if symbolsArray.contains(String(inputStringCharacter[indexOfArray])) {
                         indexOfArray = indexOfArray - 1
                         break
                     }
@@ -48,7 +52,7 @@ func spearateinputCharacterStringToArray(for inputCharacterString: [Character]) 
                 }
                 if flag == 1 {
                     temporaryvariable *= 10
-                    temporaryvariable += (Int(String(inputCharacterString[startingIndex])) ?? 0)
+                    temporaryvariable += (Int(String(inputStringCharacter[startingIndex])) ?? 0)
                     let temporaryString = String(temporaryvariable) + String(temporaryArray[startingIndex + 1...indexOfArray])
                     flag = 0
                     temporaryvariable = 0
@@ -59,24 +63,24 @@ func spearateinputCharacterStringToArray(for inputCharacterString: [Character]) 
                 }          
             }
 
-            else if symbolsArray.contains(String(inputCharacterString[indexOfArray])) != true{
+            else if symbolsArray.contains(String(inputStringCharacter[indexOfArray])) != true{
             
                 temporaryvariable *= 10
-                temporaryvariable += (Int(String(inputCharacterString[indexOfArray])) ?? 0)
+                temporaryvariable += (Int(String(inputStringCharacter[indexOfArray])) ?? 0)
                 flag = 1
             }
             else {
                 if flag == 1 {
                     infixExpressionArray.append(String(temporaryvariable))
                 }
-                if inputCharacterString[indexOfArray] == "(" && indexOfArray != 0  {
-                    if symbolsArray.contains(String(inputCharacterString[indexOfArray - 1])) != true {
+                if inputStringCharacter[indexOfArray] == "(" && indexOfArray != 0  {
+                    if symbolsArray.contains(String(inputStringCharacter[indexOfArray - 1])) != true {
                         infixExpressionArray.append("*")
                     }
                 }
-                infixExpressionArray.append(String(inputCharacterString[indexOfArray]))
-                if inputCharacterString[indexOfArray] == ")" && indexOfArray < inputCharacterString.count {
-                    if  inputCharacterString[indexOfArray + 1] == "(" || symbolsArray.contains(String(inputCharacterString[indexOfArray + 1])) != true{
+                infixExpressionArray.append(String(inputStringCharacter[indexOfArray]))
+                if inputStringCharacter[indexOfArray] == ")" && indexOfArray < inputStringCharacter.count {
+                    if  inputStringCharacter[indexOfArray + 1] == "(" || symbolsArray.contains(String(inputStringCharacter[indexOfArray + 1])) != true{
                         infixExpressionArray.append("*")
                     }
                 }
@@ -85,18 +89,18 @@ func spearateinputCharacterStringToArray(for inputCharacterString: [Character]) 
             }
         }
         else{
-            if indexOfArray <= inputCharacterString.count - 1   {
-                if flag == 1 && symbolsArray.contains(String(inputCharacterString[indexOfArray])) {
+            if indexOfArray <= inputStringCharacter.count - 1   {
+                if flag == 1 && symbolsArray.contains(String(inputStringCharacter[indexOfArray])) {
                     
                     infixExpressionArray.append(String(temporaryvariable))
-                    infixExpressionArray.append(String(inputCharacterString[indexOfArray]))
+                    infixExpressionArray.append(String(inputStringCharacter[indexOfArray]))
                 }
                 else if flag == 1 {
-                    temporaryvariable = temporaryvariable * 10 + (Int(String(inputCharacterString[indexOfArray])) ?? 0)
+                    temporaryvariable = temporaryvariable * 10 + (Int(String(inputStringCharacter[indexOfArray])) ?? 0)
                     infixExpressionArray.append(String(temporaryvariable))
                 }
                 else {
-                    infixExpressionArray.append(String(inputCharacterString[indexOfArray]))
+                    infixExpressionArray.append(String(inputStringCharacter[indexOfArray]))
                 }
                 
             }
@@ -105,13 +109,11 @@ func spearateinputCharacterStringToArray(for inputCharacterString: [Character]) 
     }
    
 }
-
-
-func infixToPostfixArray(for infixExpressionArray: [String]) -> [String]  {
+func createpostfixExpressionArray(using infixExpressionArray: [String]) -> [String]  {
     var operatorArray: [String] = []
     for eachElements in infixExpressionArray {
         if symbolsArray.contains(eachElements) != true {
-            postfixArray.append(eachElements)
+            postfixExpressionArray.append(eachElements)
         }
         else if eachElements == "(" {
             operatorArray.append(eachElements)
@@ -121,13 +123,13 @@ func infixToPostfixArray(for infixExpressionArray: [String]) -> [String]  {
             
             var removedOperators = operatorArray.removeLast()
             while removedOperators != "("{
-                postfixArray.append(removedOperators)
+                postfixExpressionArray.append(removedOperators)
                 removedOperators = operatorArray.removeLast()
             }
         }
         else {
             while !operatorArray.isEmpty  && SymbolsPrecedenceDictionary[eachElements]! <= SymbolsPrecedenceDictionary[operatorArray.last!]! {
-                postfixArray.append(operatorArray.removeLast())
+                postfixExpressionArray.append(operatorArray.removeLast())
                 
             }
             operatorArray.append(eachElements)
@@ -135,16 +137,16 @@ func infixToPostfixArray(for infixExpressionArray: [String]) -> [String]  {
     }
     
     while !operatorArray.isEmpty {
-        postfixArray.append(operatorArray.removeLast())
+        postfixExpressionArray.append(operatorArray.removeLast())
     }
-    return postfixArray
+    return postfixExpressionArray
 }
 
 
-func calculatePostfixArray(for postfixArray: [String]) -> Double {
-    var operandsArray: [Double] = []
-    let symbolsBaseValueDictionary = ["*" : 1.0, "/": 1.0, "+": 0.0, "-": 0.0]
-    for eachElements in postfixArray {
+func calculateFinalAnswer(using postfixExpressionArray: [String]) -> Float {
+    var operandsArray: [Float] = []
+    let symbolsBaseValueDictionary:[String:Float] = ["*" : 1.0, "/": 1.0, "+": 0.0, "-": 0.0]
+    for eachElements in postfixExpressionArray {
         if (symbolsArray.contains(String(eachElements)) ) {
             
             if operandsArray.count == 1 {
@@ -156,14 +158,14 @@ func calculatePostfixArray(for postfixArray: [String]) -> Double {
                 
         }
         else {
-            operandsArray.append(Double(String(eachElements)) ?? 0)
+            operandsArray.append(Float(String(eachElements)) ?? 0)
         }
     }
    return operandsArray[0]
 }
 
 
-func doCalculationForOperators(for operators: String, with secondOperand: Double,and firstOperand: Double) -> Double {
+func doCalculationForOperators(for operators: String, with secondOperand: Float,and firstOperand: Float) -> Float {
 
     switch operators {
     case "+":
@@ -183,4 +185,4 @@ func doCalculationForOperators(for operators: String, with secondOperand: Double
     
 }
 
-performCalculationForGiveninputCharacterString()
+performCalculationForGiveninputStringCharacter()
