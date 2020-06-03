@@ -6,7 +6,7 @@ output: 3732.0
 
 import Foundation
 
-let inputStringCharacter = Array(("-1(1+0.2)10").replacingOccurrences(of:  " ", with: ""))
+let inputStringCharacter = Array(("1(1+0.2)10").replacingOccurrences(of:  " ", with: ""))
 
 let symbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -18,12 +18,11 @@ var postfixExpressionArray: [String] = []
 
 
 //main function
-func performCalculationForGiveninputStringCharacter() {
+func performArithmeticOperation(for inputStringCharacter:[Character]) {
     createInfixExpressionArray(using: inputStringCharacter)
     createpostfixExpressionArray(using: infixExpressionArray)
     print("answer : \(calculateFinalAnswer(using: postfixExpressionArray)) " )
 }
-
 
 
 //create infix expression using input string character
@@ -110,6 +109,7 @@ func createInfixExpressionArray(using inputStringCharacter: [Character]) {
    
 }
 
+
 //create postfix expression using infix array
 func createpostfixExpressionArray(using infixExpressionArray: [String]) -> [String]  {
     var operatorArray: [String] = []
@@ -143,6 +143,7 @@ func createpostfixExpressionArray(using infixExpressionArray: [String]) -> [Stri
     }
     return postfixExpressionArray
 }
+
 
 
 //calculate answer for postfix expression
@@ -187,4 +188,4 @@ func doCalculationForOperators(for operators: String, with secondOperand: Float,
     return -1
     
 }
-performCalculationForGiveninputStringCharacter()
+performArithmeticOperation(for:inputStringCharacter)
