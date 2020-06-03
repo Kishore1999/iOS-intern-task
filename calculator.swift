@@ -6,7 +6,7 @@ output: 3732.0
 
 import Foundation
 
-let inputCharacterString = Array(("2.2+3").replacingOccurrences(of:  " ", with: ""))
+let inputCharacterString = Array(("2-3").replacingOccurrences(of:  " ", with: ""))
 
 let SymbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -20,7 +20,7 @@ func performCalculationForGiveninputCharacterString() {
     spearateinputCharacterStringToArray(for: inputCharacterString)
     //print(infixExpressionArray)
     infixToPostfixArray(for: infixExpressionArray)
-    print("answer : \(calculatePostfixArray()) " )
+    print("answer : \(calculatePostfixArray(for: postfixArray)) " )
 }
 
 func spearateinputCharacterStringToArray(for inputCharacterString: [Character]) {
@@ -141,17 +141,17 @@ func infixToPostfixArray(for infixExpressionArray: [String]) -> [String]  {
 }
 
 
-func calculatePostfixArray() -> Double {
+func calculatePostfixArray(for postfixArray: [String]) -> Double {
     var operandsArray: [Double] = []
     let symbolsBaseValueDictionary = ["*" : 1.0, "/": 1.0, "+": 0.0, "-": 0.0]
     for eachElements in postfixArray {
         if (symbolsArray.contains(String(eachElements)) ) {
             
             if operandsArray.count == 1 {
-                operandsArray.append(doCalculationForOperators(eachElements,operandsArray.removeLast(),symbolsBaseValueDictionary[eachElements]!))
+                operandsArray.append(doCalculationForOperators(for:eachElements,with:operandsArray.removeLast(),and:symbolsBaseValueDictionary[eachElements]!))
             }
             else {
-                operandsArray.append(doCalculationForOperators(eachElements,operandsArray.removeLast(),operandsArray.removeLast()))
+                operandsArray.append(doCalculationForOperators(for:eachElements,with:operandsArray.removeLast(),and:operandsArray.removeLast()))
             }
                 
         }
@@ -163,7 +163,7 @@ func calculatePostfixArray() -> Double {
 }
 
 
-func doCalculationForOperators(_ operators: String,_ secondOperand: Double,_ firstOperand: Double) -> Double {
+func doCalculationForOperators(for operators: String, with secondOperand: Double,and firstOperand: Double) -> Double {
 
     switch operators {
     case "+":
