@@ -1,8 +1,6 @@
 import Foundation
 
-import Foundation
-
-let inputStringCharacter = Array((".68-.67").replacingOccurrences(of:  " ", with: ""))
+let inputStringCharacter = Array(("3+2").replacingOccurrences(of:  " ", with: ""))
 
 let symbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -15,6 +13,7 @@ var postfixExpressionArray: [String] = []
 
 //main function
 func performArithmeticOperation(for inputStringCharacter:[Character]) {
+    
     createInfixExpressionArray(using: inputStringCharacter)
     print(infixExpressionArray)
     createpostfixExpressionArray(using: infixExpressionArray)
@@ -25,6 +24,7 @@ func performArithmeticOperation(for inputStringCharacter:[Character]) {
 //create infix expression using input string character
 func createInfixExpressionArray(using inputStringCharacter: [Character]) {
     var flag = 0
+    var signedValue  = 0
     var temporaryvariable = 0
     var temporaryArray = Array(inputStringCharacter)
     var indexOfArray = 0
@@ -72,15 +72,22 @@ func createInfixExpressionArray(using inputStringCharacter: [Character]) {
                 if flag == 1 {
                     infixExpressionArray.append(String(temporaryvariable))
                 }
-                if inputStringCharacter[indexOfArray] == "(" && indexOfArray != 0  {
+                if inputStringCharacter[indexOfArray] == "(" && indexOfArray != 0 {
                     if symbolsArray.contains(String(inputStringCharacter[indexOfArray - 1])) != true {
                         infixExpressionArray.append("*")
                     }
+                    if (inputStringCharacter[indexOfArray + 1]) == "-" || (inputStringCharacter[indexOfArray + 1]) == "+" {
+                        signedValue = 1
+                    }
                 }
                 infixExpressionArray.append(String(inputStringCharacter[indexOfArray]))
+                //print(inputStringCharacter[indexOfArray])
                 if inputStringCharacter[indexOfArray] == ")" && indexOfArray < inputStringCharacter.count {
                     if  inputStringCharacter[indexOfArray + 1] == "(" || symbolsArray.contains(String(inputStringCharacter[indexOfArray + 1])) != true{
                         infixExpressionArray.append("*")
+                    }
+                    if (inputStringCharacter[indexOfArray + 1]) == "-" || (inputStringCharacter[indexOfArray + 1]) == "+" {
+                        signedValue = 1
                     }
                 }
                 temporaryvariable = 0
@@ -106,7 +113,32 @@ func createInfixExpressionArray(using inputStringCharacter: [Character]) {
         }
         indexOfArray = indexOfArray + 1
     }
-   
+    if signedValue == 1 {
+        infixExpressionArray = checkingSignValues(for: infixExpressionArray)
+    }
+}
+
+func checkingSignValues(for infixExpressionArray:[String]) -> [String] {
+    var indexOfArray = 0
+    var tempIndex = 0
+    var tempString: String = ""
+    var infixExpressionArray = infixExpressionArray
+    while indexOfArray < infixExpressionArray.count - 1 {
+        if infixExpressionArray[indexOfArray] == "(" && infixExpressionArray[indexOfArray + 1] == "-"{
+            indexOfArray += 1
+            tempIndex = indexOfArray
+            tempString = String(infixExpressionArray.remove(at:indexOfArray)) + String(infixExpressionArray.remove(at:indexOfArray))
+            infixExpressionArray.insert(tempString, at: tempIndex)
+        }
+        else if infixExpressionArray[indexOfArray] == ")" && infixExpressionArray[indexOfArray + 1] == "-" {
+            indexOfArray += 1
+            tempIndex = indexOfArray
+            tempString = String(infixExpressionArray.remove(at:indexOfArray)) + String(infixExpressionArray.remove(at:indexOfArray))
+            infixExpressionArray.insert(tempString, at: tempIndex)
+        }
+        indexOfArray = indexOfArray + 1
+    }
+    return infixExpressionArray
 }
 
 
