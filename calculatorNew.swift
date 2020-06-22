@@ -7,7 +7,7 @@ output: 3732.0
 
 import Foundation
 
-let inputStringCharacter = Array(("3.156").replacingOccurrences(of:  " ", with: ""))
+let inputStringCharacter = Array(("((2))").replacingOccurrences(of:  " ", with: ""))
 
 let symbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -21,7 +21,8 @@ var postfixExpressionArray: [String] = []
 //main function
 func performArithmeticOperation(for inputStringCharacter:[Character]) {
     
-    if checkVaildorNot(for: inputStringCharacter) {
+    if checkVaildExpressionOrNot(for: inputStringCharacter) {
+        
         createInfixExpressionArray(using: inputStringCharacter)
         createpostfixExpressionArray(using: infixExpressionArray)
         print("answer : \(calculateFinalAnswer(using: postfixExpressionArray)) " )
@@ -31,10 +32,12 @@ func performArithmeticOperation(for inputStringCharacter:[Character]) {
     }
 }
 
-func checkVaildorNot(for inputStringCharacter: [Character]) -> Bool {
+func checkVaildExpressionOrNot(for inputStringCharacter: [Character]) -> Bool {
     let openBracketsCount = String(inputStringCharacter).components(separatedBy: "(").count
     let closedBracketsCount = String(inputStringCharacter).components(separatedBy: ")").count
     let arthmeticSymbols = ["+","-","*","/","^"]
+    var flag: Bool = false
+    
     if openBracketsCount != closedBracketsCount {
         return false
     }
@@ -43,8 +46,12 @@ func checkVaildorNot(for inputStringCharacter: [Character]) -> Bool {
             if arthmeticSymbols.contains(String(inputStringCharacter[index])) && arthmeticSymbols.contains(String(inputStringCharacter[index + 1]))  {
                 return false
             }
+
+            if symbolsArray.contains(String(inputStringCharacter[index])) != true {  //checking atleast one number is appear or not
+                flag = true
+            }
         }
-        if arthmeticSymbols.contains(String(inputStringCharacter[inputStringCharacter.count - 1])) {
+        if arthmeticSymbols.contains(String(inputStringCharacter[inputStringCharacter.count - 1])) || flag == false {
             return false
         }
     }
@@ -145,11 +152,11 @@ func createInfixExpressionArray(using inputStringCharacter: [Character]) {
         indexOfArray = indexOfArray + 1
     }
     if signedValue == 1 {
-        infixExpressionArray = checkingSignValues(for: infixExpressionArray)
+        infixExpressionArray = checkingSignedValues(for: infixExpressionArray)
     }
 }
 
-func checkingSignValues(for infixExpressionArray:[String]) -> [String] {
+func checkingSignedValues(for infixExpressionArray:[String]) -> [String] {
     var indexOfArray = 0
     var tempIndex = 0
     var tempString: String = ""
