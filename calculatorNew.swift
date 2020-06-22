@@ -1,6 +1,6 @@
 import Foundation
 
-let inputStringCharacter = Array(("3+2").replacingOccurrences(of:  " ", with: ""))
+let inputStringCharacter = Array(("3.156").replacingOccurrences(of:  " ", with: ""))
 
 let symbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -14,12 +14,36 @@ var postfixExpressionArray: [String] = []
 //main function
 func performArithmeticOperation(for inputStringCharacter:[Character]) {
     
-    createInfixExpressionArray(using: inputStringCharacter)
-    print(infixExpressionArray)
-    createpostfixExpressionArray(using: infixExpressionArray)
-    print("answer : \(calculateFinalAnswer(using: postfixExpressionArray)) " )
+    if checkVaildorNot(for: inputStringCharacter) {
+        createInfixExpressionArray(using: inputStringCharacter)
+        createpostfixExpressionArray(using: infixExpressionArray)
+        print("answer : \(calculateFinalAnswer(using: postfixExpressionArray)) " )
+    }
+    else {
+        print("Invaild equation")
+    }
 }
 
+func checkVaildorNot(for inputStringCharacter: [Character]) -> Bool {
+    let openBracketsCount = String(inputStringCharacter).components(separatedBy: "(").count
+    let closedBracketsCount = String(inputStringCharacter).components(separatedBy: ")").count
+    let arthmeticSymbols = ["+","-","*","/","^"]
+    if openBracketsCount != closedBracketsCount {
+        return false
+    }
+    else {
+        for index in 0..<inputStringCharacter.count - 1{
+            if arthmeticSymbols.contains(String(inputStringCharacter[index])) && arthmeticSymbols.contains(String(inputStringCharacter[index + 1]))  {
+                return false
+            }
+        }
+        if arthmeticSymbols.contains(String(inputStringCharacter[inputStringCharacter.count - 1])) {
+            return false
+        }
+    }
+    return true
+    
+}
 
 //create infix expression using input string character
 func createInfixExpressionArray(using inputStringCharacter: [Character]) {
@@ -197,7 +221,8 @@ func calculateFinalAnswer(using postfixExpressionArray: [String]) -> Float {
             operandsArray.append(Float(String(eachElements)) ?? 0)
         }
     }
-   return operandsArray[0]
+   let answer = Float(String(format:"%.2f",operandsArray[0])) ?? 0
+   return answer
 }
 
 //do calculation for respective sign
