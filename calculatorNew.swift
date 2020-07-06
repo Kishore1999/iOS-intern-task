@@ -7,7 +7,7 @@ output: 3732.0
 
 import Foundation
 
-let inputStringCharacter = Array(("((2))").replacingOccurrences(of:  " ", with: ""))
+let inputStringCharacter = Array(("-2(-1.09)").replacingOccurrences(of:  " ", with: ""))
 
 let symbolsPrecedenceDictionary = ["+":1,"-":1,"*":2,"/":2,"^":3,"(":0]
 
@@ -21,7 +21,7 @@ var postfixExpressionArray: [String] = []
 //main function
 func performArithmeticOperation(for inputStringCharacter:[Character]) {
     
-    if checkVaildExpressionOrNot(for: inputStringCharacter) {
+    if isVaildExpression(for: inputStringCharacter) {
         
         createInfixExpressionArray(using: inputStringCharacter)
         createpostfixExpressionArray(using: infixExpressionArray)
@@ -32,7 +32,8 @@ func performArithmeticOperation(for inputStringCharacter:[Character]) {
     }
 }
 
-func checkVaildExpressionOrNot(for inputStringCharacter: [Character]) -> Bool {
+func isVaildExpression(for inputStringCharacter: [Character]) -> Bool {
+    var continueSymbolsCount = 0
     let openBracketsCount = String(inputStringCharacter).components(separatedBy: "(").count
     let closedBracketsCount = String(inputStringCharacter).components(separatedBy: ")").count
     let arthmeticSymbols = ["+","-","*","/","^"]
@@ -42,9 +43,20 @@ func checkVaildExpressionOrNot(for inputStringCharacter: [Character]) -> Bool {
         return false
     }
     else {
-        for index in 0..<inputStringCharacter.count - 1{
-            if arthmeticSymbols.contains(String(inputStringCharacter[index])) && arthmeticSymbols.contains(String(inputStringCharacter[index + 1]))  {
+        for index in 0..<inputStringCharacter.count{
+            if arthmeticSymbols.contains(String(inputStringCharacter[index])) {
+                continueSymbolsCount += 1
+            }
+            else if continueSymbolsCount == 2 {
                 return false
+            }
+            else {
+                continueSymbolsCount = 0
+            }
+            if inputStringCharacter[index] == ")" && index != 0 {
+                if arthmeticSymbols.contains(String(inputStringCharacter[index - 1])) {
+                    return false
+                } 
             }
 
             if symbolsArray.contains(String(inputStringCharacter[index])) != true {  //checking atleast one number is appear or not
